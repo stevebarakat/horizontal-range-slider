@@ -85,30 +85,6 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
   &:focus {
     outline: none;
   }
-  &::-webkit-slider-thumb {
-    position: relative;
-    height: 2.2rem;
-    width: 2.2rem;
-    border-radius: 50%;
-    background: ${whiteColor};
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 1);
-    cursor: pointer;
-    -webkit-appearance: none;
-    margin-top: -10px;
-    z-index: 999;
-  }
-  &::-moz-range-thumb {
-    position: relative;
-    height: 2.2rem;
-    width: 2.2rem;
-    border-radius: 50%;
-    background: ${whiteColor};
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 1);
-    cursor: pointer;
-    -webkit-appearance: none;
-    margin-top: -10px;
-    z-index: 999;
-  }
   &::-webkit-slider-runnable-track {
     width: 15px;
     height: 15px;
@@ -132,12 +108,38 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
     background: whiteColor;
   }
 
+  &::-webkit-slider-thumb {
+    position: relative;
+    height: 2.2rem;
+    width: 2.2rem;
+    border-radius: 50%;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 1);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -10px;
+    z-index: 999;
+    background-color: white;
+    background: ${p => !p.focused && `-webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
+  }
+  &::-moz-range-thumb {
+    position: relative;
+    height: 2.2rem;
+    width: 2.2rem;
+    border-radius: 50%;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 1);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -10px;
+    z-index: 999;
+    background-color: white;
+    background: -webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%);
+  }
   &:focus::-webkit-slider-thumb {
-    background: ${p => p.focused ? `-webkit-radial-gradient(center, ellipse cover,  ${whiteColor} 0%,${whiteColor} 35%,${fillColor} 40%,${fillColor} 100%)` : `-webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
+    background: ${p => p.focused && `-webkit-radial-gradient(center, ellipse cover,  ${whiteColor} 0%,${whiteColor} 35%,${fillColor} 40%,${fillColor} 100%)`};
     transition: all 0.15s ease-out;
   }
   &:focus::-moz-range-thumb {
-    background: ${p => p.focused ? `-webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%)` : `-webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
+    background: ${p => p.focused && `-webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
     transition: all 0.15s ease-out;
   }
 `;
