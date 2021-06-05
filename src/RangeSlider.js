@@ -4,7 +4,7 @@ import styled from 'styled-components';
 let fillColor = "";
 let newValue = "";
 
-const RangeSlider = ({ min = 0, max = 100, step = 0, decimals = 0, primaryColor = "black" }) => {
+const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250px", primaryColor = "black" }) => {
   const rangeEl = useRef(null);
   const [value, setValue] = useState((min + max) / 2);
   const [isFocused, setIsFocused] = useState(false);
@@ -18,7 +18,7 @@ const RangeSlider = ({ min = 0, max = 100, step = 0, decimals = 0, primaryColor 
   }, [])
 
   return (
-    <RangeWrap>
+    <RangeWrap style={{ width: width}}>
       <RangeOutput
         focused={isFocused}
         style={{ left: `calc(${newValue}% + (${newPosition / 10}rem))` }}
@@ -42,7 +42,6 @@ const RangeSlider = ({ min = 0, max = 100, step = 0, decimals = 0, primaryColor 
       <Progress
         focused={isFocused}
         style={{ width: `calc(${newValue}% + (${newPosition / 10}rem))` }}
-        // style={{width: min - max / 2 }}
       />
     </RangeWrap>
   );
@@ -52,6 +51,31 @@ export default RangeSlider;
 
 const whiteColor = "white";
 const blackColor = "#999";
+
+const RangeWrap = styled.div`
+  border: 3px dotted red;
+  position: relative;
+  margin-top: 2rem;
+`;
+
+const RangeOutput = styled.div`
+  font-family: sans-serif;
+  position: absolute;
+  margin-top: -2rem;
+  left: 50%;
+  border: ${p => p.focused ? "none" : `1px solid ${blackColor}`};
+  background: ${p => p.focused ? fillColor : whiteColor};
+  color: ${p => p.focused ? whiteColor : blackColor};
+  line-height: 1.75rem;
+  text-align: center;
+  padding: 0.15rem 0.5rem;
+  font-size: 1rem;
+  display: block;
+  transform: translate(-50%, 0);
+  border-radius: 5px;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.25);
+  transition: all 0.15s ease-out;
+`;
 
 const StyledRangeSlider = styled.input.attrs({ type: "range" })`
   appearance: none;
@@ -117,12 +141,6 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
   }
 `;
 
-const RangeWrap = styled.div`
-  border: 3px dotted red;
-  position: relative;
-  margin-top: 2rem;
-`;
-
 const Progress = styled.div`
   background: ${p => p.focused ? fillColor : "#EFEFEF"};
   height: 15px;
@@ -132,24 +150,5 @@ const Progress = styled.div`
   top: 20px;
   box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.5);
   z-index: 0;
-  transition: all 0.15s ease-out;
-`;
-
-const RangeOutput = styled.div`
-  font-family: sans-serif;
-  position: absolute;
-  margin-top: -2rem;
-  left: 50%;
-  border: ${p => p.focused ? "none" : `1px solid ${blackColor}`};
-  background: ${p => p.focused ? fillColor : whiteColor};
-  color: ${p => p.focused ? whiteColor : blackColor};
-  line-height: 1.75rem;
-  text-align: center;
-  padding: 0.15rem 0.5rem;
-  font-size: 1rem;
-  display: block;
-  transform: translate(-50%, 0);
-  border-radius: 5px;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.25);
   transition: all 0.15s ease-out;
 `;
