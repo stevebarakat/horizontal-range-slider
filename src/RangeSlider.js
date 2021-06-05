@@ -38,6 +38,7 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
         ref={rangeEl}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
+        focused={isFocused}
       />
       <Progress
         focused={isFocused}
@@ -132,11 +133,11 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
   }
 
   &:focus::-webkit-slider-thumb {
-    background: ${p => p.focused ? whiteColor : `-webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
+    background: ${p => p.focused ? `-webkit-radial-gradient(center, ellipse cover,  ${whiteColor} 0%,${whiteColor} 35%,${fillColor} 40%,${fillColor} 100%)` : `-webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
     transition: all 0.15s ease-out;
   }
   &:focus::-moz-range-thumb {
-    background: ${p => p.focused ? whiteColor : `-webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
+    background: ${p => p.focused ? `-webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%)` : `-webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
     transition: all 0.15s ease-out;
   }
 `;
