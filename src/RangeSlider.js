@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from 'styled-components';
 
-let fillColor = "";
+let focusColor = "";
+let blurColor = "";
 let newValue = "";
 
-const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250px", primaryColor = "black" }) => {
+const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250px", primaryColor = "black", primaryColor50 }) => {
   const rangeEl = useRef(null);
   const [value, setValue] = useState((min + max) / 2);
   const [isFocused, setIsFocused] = useState(false);
   newValue = Number(((value - min) * 100) / (max - min));
   const newPosition = 10 - newValue * 0.2;
-  fillColor = primaryColor;
+  focusColor = primaryColor;
+  blurColor = primaryColor50;
 
   useEffect(() => {
     rangeEl.current.focus();
@@ -54,7 +56,6 @@ const whiteColor = "white";
 const blackColor = "#999";
 
 const RangeWrap = styled.div`
-  border: 3px dotted red;
   position: relative;
   margin-top: 2rem;
 `;
@@ -65,7 +66,7 @@ const RangeOutput = styled.div`
   margin-top: -2rem;
   left: 50%;
   border: ${p => p.focused ? "none" : `1px solid ${blackColor}`};
-  background: ${p => p.focused ? fillColor : whiteColor};
+  background: ${p => p.focused ? focusColor : whiteColor};
   color: ${p => p.focused ? whiteColor : blackColor};
   line-height: 1.75rem;
   text-align: center;
@@ -82,6 +83,7 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
   appearance: none;
   margin: 20px 0;
   width: 100%;
+  border-radius: 25px;
   &:focus {
     outline: none;
   }
@@ -119,7 +121,7 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
     margin-top: -10px;
     z-index: 999;
     background-color: white;
-    background: ${p => !p.focused && `-webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
+    background: ${p => !p.focused && `-webkit-radial-gradient(center, ellipse cover,  ${focusColor} 0%,${focusColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
   }
   &::-moz-range-thumb {
     position: relative;
@@ -132,20 +134,20 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
     margin-top: -10px;
     z-index: 999;
     background-color: white;
-    background: -webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%);
+    background: -webkit-radial-gradient(center, ellipse cover,  ${focusColor} 0%,${focusColor} 35%,${whiteColor} 40%,${whiteColor} 100%);
   }
   &:focus::-webkit-slider-thumb {
-    background: ${p => p.focused && `-webkit-radial-gradient(center, ellipse cover,  ${whiteColor} 0%,${whiteColor} 35%,${fillColor} 40%,${fillColor} 100%)`};
+    background: ${p => p.focused && `-webkit-radial-gradient(center, ellipse cover,  ${whiteColor} 0%,${whiteColor} 35%,${focusColor} 40%,${focusColor} 100%)`};
     transition: all 0.15s ease-out;
   }
   &:focus::-moz-range-thumb {
-    background: ${p => p.focused && `-webkit-radial-gradient(center, ellipse cover,  ${fillColor} 0%,${fillColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
+    background: ${p => p.focused && `-webkit-radial-gradient(center, ellipse cover,  ${focusColor} 0%,${focusColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
     transition: all 0.15s ease-out;
   }
 `;
 
 const Progress = styled.div`
-  background: ${p => p.focused ? fillColor : "#EFEFEF"};
+  background: ${p => p.focused ? focusColor : blurColor };
   height: 15px;
   width: 15px;
   border-radius: 25px;
