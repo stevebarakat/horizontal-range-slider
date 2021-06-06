@@ -4,23 +4,81 @@ import styled from 'styled-components';
 let focusColor = "";
 let blurColor = "";
 let newValue = "";
+let selectedValue = "";
 
 const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250px", primaryColor = "black", primaryColor50 }) => {
   const rangeEl = useRef(null);
   const [value, setValue] = useState((min + max) / 2);
   const [isFocused, setIsFocused] = useState(false);
+  const factor = (max - min) / 10;
+  console.log(factor);
   newValue = Number(((value - min) * 100) / (max - min));
   const newPosition = 10 - newValue * 0.2;
   focusColor = primaryColor;
   blurColor = primaryColor50;
 
   useEffect(() => {
+    rangeEl.current.focus(); 
+    setValue(rangeEl.current.valueAsNumber);
+  }, []);
+
+  function handleKeyPress(e) {
     rangeEl.current.focus();
-    setValue(rangeEl.current.value)
-  }, [])
+    
+    // Check
+    const cmd = e.metaKey;
+    const ctrl = e.ctrlKey;
+
+    switch (e.keyCode) {
+      case 13: //Enter
+      case 32: //Space
+        selectedValue = value;
+        console.log(selectedValue);
+        return;
+      case 27: //Esc
+        rangeEl.current.blur();
+        return;
+
+
+
+
+      case 37: //Left
+        console.log(value);
+        cmd &&
+          setValue(value - factor);
+        return;
+
+
+      case 38: //Up
+        console.log(value);
+        cmd &&
+          setValue(value + factor);
+        return;
+
+
+      case 40: //Down
+        console.log(value);
+        cmd &&
+          setValue(value - factor);
+        return;
+
+
+      case 39: //Right
+        console.log(value);
+        cmd &&
+          setValue(value + factor);
+        return;
+
+
+
+
+      default:
+        return;
+    }
+  }
 
   return (
-    <RangeWrap style={{ width: width}}>
+    <RangeWrap style={{ width: width }}>
       <RangeOutput
         focused={isFocused}
         style={{ left: `calc(${newValue}% + (${newPosition / 10}rem))` }}
@@ -29,13 +87,14 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
         {parseFloat(value).toFixed(decimals)}
       </RangeOutput>
       <StyledRangeSlider
+        onKeyDown={handleKeyPress}
         min={min}
         max={max}
         step={step}
         value={value}
         onInput={(e) => {
           rangeEl.current.focus();
-          setValue(e.target.value);
+          setValue(e.target.valueAsNumber);
         }}
         ref={rangeEl}
         onFocus={() => setIsFocused(true)}
@@ -147,7 +206,7 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
 `;
 
 const Progress = styled.div`
-  background: ${p => p.focused ? focusColor : blurColor };
+  background: ${p => p.focused ? focusColor : blurColor};
   height: 15px;
   width: 15px;
   border-radius: 25px;
@@ -155,5 +214,5 @@ const Progress = styled.div`
   top: 20px;
   box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.5);
   z-index: 0;
-  transition: all 0.15s ease-out;
+  /* transition: all 0.15s ease-out; */
 `;
