@@ -25,11 +25,17 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
     }
   }, [value, max]);
 
+  let markers = [];
+  for (let i = min; i <= max; i+=step){
+    console.log(i);
+    markers.push(<Tick>{i}</Tick>);
+  }
+  const marks = markers.map(marker => marker);
 
   function handleKeyPress(e) {
     rangeEl.current.focus();
 
-    // Check
+    // Check if modifier key is pressed
     const cmd = e.metaKey;
     const ctrl = e.ctrlKey;
 
@@ -47,30 +53,22 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
 
 
       case 37: //Left
-        console.log(value);
-        (cmd || ctrl) &&
-          setValue(value - factor);
+        (cmd || ctrl) &&  setValue(value - factor);
         return;
 
 
       case 40: //Down
-        console.log(value);
-        (cmd || ctrl) &&
-          setValue(value - factor);
+        (cmd || ctrl) &&  setValue(value - factor);
         return;
 
 
       case 38: //Up
-        console.log(value);
-        (cmd || ctrl) &&
-          setValue(value >= max ? max : value + factor);
+        (cmd || ctrl) && setValue(value >= max ? max : value + factor);
         return;
 
 
       case 39: //Right
-        console.log(value);
-        (cmd || ctrl) &&
-          setValue(value >= max ? max : value + factor);
+        (cmd || ctrl) && setValue(value >= max ? max : value + factor);
         return;
 
 
@@ -108,17 +106,7 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
         focused={isFocused}
       />
       <Ticks>
-        <Tick value="0">|</Tick>
-        <Tick value="10">|</Tick>
-        <Tick value="20">|</Tick>
-        <Tick value="30">|</Tick>
-        <Tick value="40">|</Tick>
-        <Tick value="50">|</Tick>
-        <Tick value="60">|</Tick>
-        <Tick value="70">|</Tick>
-        <Tick value="80">|</Tick>
-        <Tick value="90">|</Tick>
-        <Tick value="100">|</Tick>
+        {marks}
       </Ticks>
       <Progress
         onClick={e => console.log(e)}
@@ -241,17 +229,17 @@ const Progress = styled.div`
 
 const Ticks = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 10px 20px
-`
+  justify-content: space-around;
+`;
 
 const Tick = styled.span`
   position: relative;
   display: flex;
   justify-content: center;
   width: 1px;
-  background: gray;
-  height: 10px;
-  line-height: 50px;
+  background: ${blackColor};
+  height: 5px;
+  line-height: 30px;
+  top: -1rem;
   margin-bottom: 20px
-`
+`;
