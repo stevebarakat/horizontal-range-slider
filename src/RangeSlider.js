@@ -107,19 +107,19 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
         onBlur={() => setIsFocused(false)}
         focused={isFocused}
       />
-      <datalist id="tickmarks">
-        <option value="0" label="0%">|</option>
-        <option value="10">|</option>
-        <option value="20">|</option>
-        <option value="30">|</option>
-        <option value="40">|</option>
-        <option value="50" label="50%">|</option>
-        <option value="60">|</option>
-        <option value="70">|</option>
-        <option value="80">|</option>
-        <option value="90">|</option>
-        <option value="100" label="100%">|</option>
-      </datalist>
+      <Ticks>
+        <Tick value="0">|</Tick>
+        <Tick value="10">|</Tick>
+        <Tick value="20">|</Tick>
+        <Tick value="30">|</Tick>
+        <Tick value="40">|</Tick>
+        <Tick value="50">|</Tick>
+        <Tick value="60">|</Tick>
+        <Tick value="70">|</Tick>
+        <Tick value="80">|</Tick>
+        <Tick value="90">|</Tick>
+        <Tick value="100">|</Tick>
+      </Ticks>
       <Progress
         onClick={e => console.log(e)}
         focused={isFocused}
@@ -234,8 +234,24 @@ const Progress = styled.div`
   border-radius: 25px;
   position: absolute;
   top: 20px;
-  box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.5);
   z-index: 0;
   cursor: pointer;
   /* transition: width 0.1s; */
 `;
+
+const Ticks = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px
+`
+
+const Tick = styled.span`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 1px;
+  background: gray;
+  height: 10px;
+  line-height: 50px;
+  margin-bottom: 20px
+`
