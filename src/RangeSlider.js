@@ -18,13 +18,13 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
   blurColor = primaryColor50;
 
   useEffect(() => {
-    rangeEl.current.focus(); 
+    rangeEl.current.focus();
     setValue(rangeEl.current.valueAsNumber);
   }, []);
 
   function handleKeyPress(e) {
     rangeEl.current.focus();
-    
+
     // Check
     const cmd = e.metaKey;
     const ctrl = e.ctrlKey;
@@ -49,17 +49,17 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
         return;
 
 
-      case 38: //Up
-        console.log(value);
-        cmd &&
-          setValue(value + factor);
-        return;
-
-
       case 40: //Down
         console.log(value);
         cmd &&
           setValue(value - factor);
+        return;
+
+
+      case 38: //Up
+        console.log(value);
+        cmd &&
+          setValue(value + factor);
         return;
 
 
