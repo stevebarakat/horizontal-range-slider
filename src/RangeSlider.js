@@ -11,16 +11,20 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
   const [value, setValue] = useState((min + max) / 2);
   const [isFocused, setIsFocused] = useState(false);
   const factor = (max - min) / 10;
-  console.log(factor);
-  newValue = Number(((value - min) * 100) / (max - min));
-  const newPosition = 10 - newValue * 0.2;
   focusColor = primaryColor;
   blurColor = primaryColor50;
+  newValue = Number(((value - min) * 100) / (max - min));
+  const newPosition = 10 - newValue * 0.2;
 
   useEffect(() => {
     rangeEl.current.focus();
-    setValue(rangeEl.current.valueAsNumber);
-  }, []);
+    if (value > max) {
+      setValue(max);
+    } else {
+      setValue(rangeEl.current.valueAsNumber);
+    }
+  }, [value, max]);
+
 
   function handleKeyPress(e) {
     rangeEl.current.focus();
@@ -44,29 +48,29 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
 
       case 37: //Left
         console.log(value);
-        cmd &&
+        (cmd || ctrl) &&
           setValue(value - factor);
         return;
 
 
       case 40: //Down
         console.log(value);
-        cmd &&
+        (cmd || ctrl) &&
           setValue(value - factor);
         return;
 
 
       case 38: //Up
         console.log(value);
-        cmd &&
-          setValue(value + factor);
+        (cmd || ctrl) &&
+          setValue(value >= max ? max : value + factor);
         return;
 
 
       case 39: //Right
         console.log(value);
-        cmd &&
-          setValue(value + factor);
+        (cmd || ctrl) &&
+          setValue(value >= max ? max : value + factor);
         return;
 
 
@@ -84,24 +88,40 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
         style={{ left: `calc(${newValue}% + (${newPosition / 10}rem))` }}
         className="range-value"
       >
-        {parseFloat(value).toFixed(decimals)}
+        {value.toFixed(decimals)}
+        {/* {value > max ? max : value.toFixed(decimals)} */}
       </RangeOutput>
       <StyledRangeSlider
-        onKeyDown={handleKeyPress}
+        list="tickmamrks"
+        ref={rangeEl}
         min={min}
         max={max}
         step={step}
-        value={value}
+        value={value > max ? max : value.toFixed(decimals)}
         onInput={(e) => {
           rangeEl.current.focus();
           setValue(e.target.valueAsNumber);
         }}
-        ref={rangeEl}
+        onKeyDown={handleKeyPress}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         focused={isFocused}
       />
+      <datalist id="tickmarks">
+        <option value="0" label="0%">|</option>
+        <option value="10">|</option>
+        <option value="20">|</option>
+        <option value="30">|</option>
+        <option value="40">|</option>
+        <option value="50" label="50%">|</option>
+        <option value="60">|</option>
+        <option value="70">|</option>
+        <option value="80">|</option>
+        <option value="90">|</option>
+        <option value="100" label="100%">|</option>
+      </datalist>
       <Progress
+        onClick={e => console.log(e)}
         focused={isFocused}
         style={{ width: `calc(${newValue}% + (${newPosition / 10}rem))` }}
       />
@@ -117,6 +137,7 @@ const blackColor = "#999";
 const RangeWrap = styled.div`
   position: relative;
   margin-top: 2rem;
+  max-width: 100%;
 `;
 
 const RangeOutput = styled.div`
@@ -150,17 +171,19 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
     width: 15px;
     height: 15px;
     cursor: pointer;
-    background: white;
+    background: transparent;
     border-radius: 25px;
     box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
   }
   &::-moz-range-runnable-track {
     width: 15px;
     height: 15px;
     cursor: pointer;
-    background: white;
+    background: transparent;
     border-radius: 25px;
     box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
   }
   &:focus::-webkit-slider-runnable-track{
     background: whiteColor;
@@ -208,11 +231,11 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
 const Progress = styled.div`
   background: ${p => p.focused ? focusColor : blurColor};
   height: 15px;
-  width: 15px;
   border-radius: 25px;
   position: absolute;
   top: 20px;
   box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.5);
   z-index: 0;
-  /* transition: all 0.15s ease-out; */
+  cursor: pointer;
+  /* transition: width 0.1s; */
 `;
