@@ -25,22 +25,22 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
     }
   }, [value, max]);
 
-  
+
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-  
+  }
+
   let markers = [];
-  for (let i = min; i <= max; i+=step){
+  for (let i = min; i <= max; i += step) {
     const labelLength = i.toString().length;
     markers.push(<Tick length={labelLength} key={i}><span><div>{numberWithCommas(i)}</div></span></Tick>);
   }
   const marks = markers.map(marker => marker);
-  
-  
-  
-  
-  
+
+
+
+
+
   function handleKeyPress(e) {
     rangeEl.current.focus();
 
@@ -62,12 +62,12 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
 
 
       case 37: //Left
-        (cmd || ctrl) &&  setValue(value - factor);
+        (cmd || ctrl) && setValue(value - factor);
         return;
 
 
       case 40: //Down
-        (cmd || ctrl) &&  setValue(value - factor);
+        (cmd || ctrl) && setValue(value - factor);
         return;
 
 
@@ -85,8 +85,8 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
 
       default:
         return;
-      }
     }
+  }
 
   return (
     <RangeWrap style={{ width: width }}>
@@ -131,13 +131,13 @@ const whiteColor = "white";
 const blackColor = "#999";
 
 const RangeWrap = styled.div`
+  font-family: sans-serif;
   position: relative;
   margin-top: 2rem;
   max-width: 100%;
 `;
 
 const RangeOutput = styled.div`
-  font-family: sans-serif;
   position: absolute;
   margin-top: -2rem;
   left: 50%;
@@ -159,11 +159,17 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
   appearance: none;
   margin: 20px 0 0 0;
   width: 100%;
-  border-radius: 25px;
+  height: 15px;
+  border-radius: 15px;
+  border: 1px solid #000;
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, 0.5);
   &:focus {
     outline: none;
   }
-  &::-webkit-slider-runnable-track {
+  /* &::-webkit-slider-runnable-track {
     width: 15px;
     height: 15px;
     cursor: pointer;
@@ -186,7 +192,7 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
   }
   &:focus::-moz-range-runnable-track{
     background: whiteColor;
-  }
+  } */
 
   &::-webkit-slider-thumb {
     position: relative;
