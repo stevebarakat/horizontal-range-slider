@@ -27,7 +27,6 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
 
   let markers = [];
   for (let i = min; i <= max; i+=step){
-    console.log(i);
     markers.push(<Tick>{i}</Tick>);
   }
   const marks = markers.map(marker => marker);
@@ -76,8 +75,9 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
 
       default:
         return;
+      }
     }
-  }
+    console.log(newValue);
 
   return (
     <RangeWrap style={{ width: width }}>
@@ -229,9 +229,12 @@ const Progress = styled.div`
 
 const Ticks = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  /* margin-left: -3%; */
+  /* margin-left: 9/3; */
+  margin-right: ${newValue - 100 / 2 * -0.02 + "rem"};
+  margin-left: ${newValue - 100 / 2 * -0.02 + "rem"};
 `;
-
 const Tick = styled.span`
   position: relative;
   display: flex;

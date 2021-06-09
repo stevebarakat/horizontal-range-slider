@@ -7,11 +7,11 @@ ReactDOM.render(
   <React.StrictMode>
     TOP
     <RangeSlider
-      min={35452}
-      max={106780}
+      min={0}
+      max={100}
       decimals={0}
-      step={5000}
-      width="500px"
+      step={10}
+      width="550px"
       primaryColor="hsl(196, 100%, 48%)"
       primaryColor50="hsla(196, 100%, 48%, 0.5)"
     />
