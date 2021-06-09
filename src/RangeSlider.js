@@ -5,7 +5,6 @@ let focusColor = "";
 let blurColor = "";
 let newValue = "";
 let selectedValue = "";
-let labelLength = "";
 
 const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250px", primaryColor = "black", primaryColor50 }) => {
   const rangeEl = useRef(null);
@@ -16,7 +15,7 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
   blurColor = primaryColor50;
   newValue = Number(((value - min) * 100) / (max - min));
   const newPosition = 10 - newValue * 0.2;
-  labelLength = "";
+
   useEffect(() => {
     rangeEl.current.focus();
     if (value > max) {
@@ -28,12 +27,10 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
 
   let markers = [];
   for (let i = min; i <= max; i+=step){
-    labelLength = i.length;
-    console.log(labelLength)
-    markers.push(<Tick key={i}><span><div>{i}</div></span></Tick>);
+    const labelLength = i.toString().length;
+    markers.push(<Tick length={labelLength} key={i}><span><div>{i}</div></span></Tick>);
   }
   const marks = markers.map(marker => marker);
-  console.log(labelLength);
   function handleKeyPress(e) {
     rangeEl.current.focus();
 
@@ -80,7 +77,6 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
         return;
       }
     }
-    console.log(newValue);
 
   return (
     <RangeWrap style={{ width: width }}>
@@ -229,7 +225,6 @@ const Progress = styled.div`
   cursor: pointer;
   /* transition: width 0.1s; */
 `;
-
 const Ticks = styled.div`
   display: flex;
   justify-content: space-between;
@@ -252,7 +247,8 @@ const Tick = styled.div`
       white-space: pre-line;
       transform: rotate(135deg);
       margin-top: -2rem;
-      width: 1ch;
+      /* width: ch; */
+      /* width: ${p => p.length}; */
     }
   }
 `;
