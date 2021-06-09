@@ -26,12 +26,14 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
   }, [value, max]);
 
   
-
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
   
   let markers = [];
   for (let i = min; i <= max; i+=step){
     const labelLength = i.toString().length;
-    markers.push(<Tick length={labelLength} key={i}><span><div>{i}</div></span></Tick>);
+    markers.push(<Tick length={labelLength} key={i}><span><div>{numberWithCommas(i)}</div></span></Tick>);
   }
   const marks = markers.map(marker => marker);
   
@@ -93,8 +95,7 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
         style={{ left: `calc(${newValue}% + (${newPosition / 10}rem))` }}
         className="range-value"
       >
-        {value.toFixed(decimals)}
-        {/* {value > max ? max : value.toFixed(decimals)} */}
+        {numberWithCommas(value.toFixed(decimals))}
       </RangeOutput>
       <StyledRangeSlider
         list="tickmamrks"
@@ -240,20 +241,21 @@ const Ticks = styled.div`
   margin-left: ${newValue - 100 / 2 * -0.02 + "rem"};
 `;
 const Tick = styled.div`
-  display: flex;
+  /* display: flex; */
   position: relative;
   justify-content: center;
   width: 1px;
   background: ${blackColor};
   height: 5px;
-  top: 0.5rem;
-  margin-bottom: 2rem;
+  top: 0.75rem;
+  margin-bottom: ${p => (p.length + 2) + "ch"};
   span{
     transform: rotate(180deg);
+    transform-origin: bottom;
+    /* margin-bottom: 0.15rem; */
     div{
-      transform: rotate(135deg);
-      margin-top: -3rem;
-      margin-left: 4.5rem;
+      transform: rotate(35deg);
+      transform-origin: right;
     }
   }
 `;
