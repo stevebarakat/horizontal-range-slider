@@ -5,6 +5,7 @@ let focusColor = "";
 let blurColor = "";
 let newValue = "";
 let selectedValue = "";
+let labelLength = "";
 
 const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250px", primaryColor = "black", primaryColor50 }) => {
   const rangeEl = useRef(null);
@@ -15,7 +16,7 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
   blurColor = primaryColor50;
   newValue = Number(((value - min) * 100) / (max - min));
   const newPosition = 10 - newValue * 0.2;
-
+  labelLength = "";
   useEffect(() => {
     rangeEl.current.focus();
     if (value > max) {
@@ -27,10 +28,12 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
 
   let markers = [];
   for (let i = min; i <= max; i+=step){
-    markers.push(<Tick>{i}</Tick>);
+    labelLength = i.length;
+    console.log(labelLength)
+    markers.push(<Tick key={i}><span><div>{i}</div></span></Tick>);
   }
   const marks = markers.map(marker => marker);
-
+  console.log(labelLength);
   function handleKeyPress(e) {
     rangeEl.current.focus();
 
@@ -149,7 +152,7 @@ const RangeOutput = styled.div`
 
 const StyledRangeSlider = styled.input.attrs({ type: "range" })`
   appearance: none;
-  margin: 20px 0;
+  margin: 20px 0 0 0;
   width: 100%;
   border-radius: 25px;
   &:focus {
@@ -182,8 +185,8 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
 
   &::-webkit-slider-thumb {
     position: relative;
-    height: 2.2rem;
-    width: 2.2rem;
+    height: 2.15rem;
+    width: 2.15rem;
     border-radius: 50%;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 1);
     cursor: pointer;
@@ -195,8 +198,8 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
   }
   &::-moz-range-thumb {
     position: relative;
-    height: 2.2rem;
-    width: 2.2rem;
+    height: 2.15rem;
+    width: 2.15rem;
     border-radius: 50%;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 1);
     cursor: pointer;
@@ -230,19 +233,26 @@ const Progress = styled.div`
 const Ticks = styled.div`
   display: flex;
   justify-content: space-between;
-  /* margin-left: -3%; */
-  /* margin-left: 9/3; */
   margin-right: ${newValue - 100 / 2 * -0.02 + "rem"};
   margin-left: ${newValue - 100 / 2 * -0.02 + "rem"};
 `;
-const Tick = styled.span`
-  position: relative;
+const Tick = styled.div`
   display: flex;
+  position: relative;
   justify-content: center;
   width: 1px;
   background: ${blackColor};
   height: 5px;
   line-height: 30px;
-  top: -1rem;
-  margin-bottom: 20px
+  top: 0.5rem;
+  margin-bottom: 2rem;
+  span{
+    transform: rotate(180deg);
+    div{
+      white-space: pre-line;
+      transform: rotate(135deg);
+      margin-top: -2rem;
+      width: 1ch;
+    }
+  }
 `;
