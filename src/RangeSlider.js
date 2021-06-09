@@ -25,12 +25,20 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
     }
   }, [value, max]);
 
+  
+
+  
   let markers = [];
   for (let i = min; i <= max; i+=step){
     const labelLength = i.toString().length;
     markers.push(<Tick length={labelLength} key={i}><span><div>{i}</div></span></Tick>);
   }
   const marks = markers.map(marker => marker);
+  
+  
+  
+  
+  
   function handleKeyPress(e) {
     rangeEl.current.focus();
 
@@ -238,17 +246,14 @@ const Tick = styled.div`
   width: 1px;
   background: ${blackColor};
   height: 5px;
-  line-height: 30px;
   top: 0.5rem;
   margin-bottom: 2rem;
   span{
     transform: rotate(180deg);
     div{
-      white-space: pre-line;
       transform: rotate(135deg);
-      margin-top: -2rem;
-      /* width: ch; */
-      /* width: ${p => p.length}; */
+      margin-top: -3rem;
+      margin-left: 4.5rem;
     }
   }
 `;

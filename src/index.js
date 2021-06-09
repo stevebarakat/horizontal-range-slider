@@ -8,9 +8,9 @@ ReactDOM.render(
     TOP
     <RangeSlider
       min={0}
-      max={10000000}
+      max={1000000000000}
       decimals={0}
-      step={1000000}
+      step={100000000000}
       width="550px"
       primaryColor="hsl(196, 100%, 48%)"
       primaryColor50="hsla(196, 100%, 48%, 0.5)"
