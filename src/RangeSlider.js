@@ -119,7 +119,9 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
       <Progress
         onClick={e => console.log(e)}
         focused={isFocused}
-        style={{ width: `calc(${newValue}% + (${newPosition / 10}rem))` }}
+        style={isFocused ?
+          { background: `-webkit-linear-gradient(left, ${focusColor} 0%, ${focusColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} 100%)` } :
+          { background: `-webkit-linear-gradient(left, ${blurColor} 0%, ${blurColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} 100%)` } }
       />
     </RangeWrap>
   );
@@ -206,10 +208,11 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
 
 const Progress = styled.div`
   position: absolute;
-  background: ${p => p.focused ? focusColor : blurColor};
+  /* background: ${p => p.focused ? focusColor : blurColor}; */
   border: solid 1px ${blackColor};
   border-radius: 15px;
   height: 15px;
+  width: 100%;
   top: 20px;
   cursor: pointer;
   transition: width 0.15s;
