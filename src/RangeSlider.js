@@ -43,7 +43,7 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
 
   function handleKeyPress(e) {
     rangeEl.current.focus();
-
+    console.log(e)
     // Check if modifier key is pressed
     const cmd = e.metaKey;
     const ctrl = e.ctrlKey;
