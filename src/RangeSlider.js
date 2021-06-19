@@ -98,6 +98,7 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
         {numberWithCommas(value.toFixed(decimals))}
       </RangeOutput>
       <StyledRangeSlider
+        tabIndex="0"
         list="tickmamrks"
         ref={rangeEl}
         min={min}

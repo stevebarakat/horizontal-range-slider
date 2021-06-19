@@ -6,7 +6,6 @@ import './global.css';
 ReactDOM.render(
   <React.StrictMode>
     <RangeSlider
-      tabIndex="4"
       min={1}
       max={11}
       decimals={0}
@@ -16,7 +15,6 @@ ReactDOM.render(
       primaryColor50="hsla(196, 100%, 48%, 0.5)"
     />
     <RangeSlider
-      tabIndex="3"
       min={2}
       max={222}
       decimals={0}
@@ -26,17 +24,15 @@ ReactDOM.render(
       primaryColor50="hsla(196, 100%, 48%, 0.5)"
     />
     <RangeSlider
-      tabIndex="2"
       min={3}
       max={3333}
       decimals={2}
-      step={111}
+      step={333}
       width="1500px"
       primaryColor="hsl(196, 100%, 48%)"
       primaryColor50="hsla(196, 100%, 48%, 0.5)"
     />
     <RangeSlider
-      tabIndex="1"
       min={0}
       max={1500}
       decimals={0}
