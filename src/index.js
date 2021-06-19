@@ -6,20 +6,20 @@ import './global.css';
 ReactDOM.render(
   <React.StrictMode>
     <RangeSlider
-      min={0}
-      max={110}
+      min={1}
+      max={11}
       decimals={0}
-      step={10}
-      width="500px"
+      step={1}
+      width="1500px"
       primaryColor="hsl(196, 100%, 48%)"
       primaryColor50="hsla(196, 100%, 48%, 0.5)"
     />
-    {/* <RangeSlider
+    <RangeSlider
       min={2}
       max={222}
       decimals={0}
       step={11}
-      width="1500px"
+      width="500px"
       primaryColor="hsl(196, 100%, 48%)"
       primaryColor50="hsla(196, 100%, 48%, 0.5)"
     />
@@ -28,7 +28,7 @@ ReactDOM.render(
       max={3333}
       decimals={2}
       step={333}
-      width="1500px"
+      width="500px"
       primaryColor="hsl(196, 100%, 48%)"
       primaryColor50="hsla(196, 100%, 48%, 0.5)"
     />
@@ -37,10 +37,10 @@ ReactDOM.render(
       max={1500}
       decimals={0}
       step={30}
-      width="1500px"
+      width="500px"
       primaryColor="hsl(196, 100%, 48%)"
       primaryColor50="hsla(196, 100%, 48%, 0.5)"
-    /> */}
+    />
   </React.StrictMode>,
   document.getElementById('root')
 );

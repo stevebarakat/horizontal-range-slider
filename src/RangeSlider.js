@@ -92,8 +92,10 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
     <RangeWrap style={{ width: width }}>
       <RangeOutput
         focused={isFocused}
-        // style={{ left: `calc(${newValue}% + (${newPosition / 10}rem))` }}
-        style={{ transform: `translate3d(calc(${newValue * 99}% + ${newPosition}px), 0, 0)` }}
+        style={{ 
+            transform: `translate3d(${newValue * 99}%, 0, 0)`,
+            left: `${newPosition}px`
+          }}
       >
         <span>{numberWithCommas(value.toFixed(decimals))}</span>
       </RangeOutput>
@@ -244,7 +246,7 @@ const Tick = styled.div`
       transform-origin: top center;
       margin-top: 0.5rem;
       margin-left: ${p => p.length / 2 * -1 + "ch"};
-      /* margin-left: 0.5rem;
-      transform: rotate(45deg); */
+      margin-left: 0.5rem;
+      transform: rotate(45deg);
     }
 `;
