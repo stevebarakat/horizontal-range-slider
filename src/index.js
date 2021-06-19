@@ -10,11 +10,11 @@ ReactDOM.render(
       max={11}
       decimals={0}
       step={1}
-      width="1500px"
+      width="700px"
       primaryColor="hsl(196, 100%, 48%)"
       primaryColor50="hsla(196, 100%, 48%, 0.5)"
     />
-    <RangeSlider
+    {/* <RangeSlider
       min={2}
       max={222}
       decimals={0}
@@ -40,7 +40,7 @@ ReactDOM.render(
       width="1500px"
       primaryColor="hsl(196, 100%, 48%)"
       primaryColor50="hsla(196, 100%, 48%, 0.5)"
-    />
+    /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

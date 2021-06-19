@@ -43,7 +43,7 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
 
   function handleKeyPress(e) {
     rangeEl.current.focus();
-    console.log(e)
+    console.log(e);
     // Check if modifier key is pressed
     const cmd = e.metaKey;
     const ctrl = e.ctrlKey;
@@ -92,10 +92,10 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
     <RangeWrap style={{ width: width }}>
       <RangeOutput
         focused={isFocused}
-        style={{ left: `calc(${newValue}% + (${newPosition / 10}rem))` }}
-        className="range-value"
+        // style={{ left: `calc(${newValue}% + (${newPosition / 10}rem))` }}
+        style={{ transform: `translate3d(${newValue * 95}%, 0, 0)` }}
       >
-        {numberWithCommas(value.toFixed(decimals))}
+        <span>{numberWithCommas(value.toFixed(decimals))}</span>
       </RangeOutput>
       <StyledRangeSlider
         tabIndex="0"
@@ -122,7 +122,7 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
         focused={isFocused}
         style={isFocused ?
           { background: `-webkit-linear-gradient(left, ${focusColor} 0%, ${focusColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} 100%)` } :
-          { background: `-webkit-linear-gradient(left, ${blurColor} 0%, ${blurColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} 100%)` } }
+          { background: `-webkit-linear-gradient(left, ${blurColor} 0%, ${blurColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} 100%)` }}
       />
     </RangeWrap>
   );
@@ -141,21 +141,23 @@ const RangeWrap = styled.div`
 `;
 
 const RangeOutput = styled.div`
+  /* overflow: hidden; */
   position: absolute;
   margin-top: -2rem;
-  left: 50%;
-  border: ${p => p.focused ? "none" : `1px solid ${blackColor}`};
-  background: ${p => p.focused ? focusColor : whiteColor};
-  color: ${p => p.focused ? whiteColor : blackColor};
   line-height: 1.75rem;
   text-align: center;
-  padding: 0.15rem 0.5rem;
   font-size: 1rem;
-  display: block;
-  transform: translate(-50%, 0);
-  border-radius: 5px;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.25);
+  display: flex;
   transition: all 0.15s ease-out;
+  width: 1%;
+  span{
+  border: ${p => p.focused ? "none" : `1px solid ${blackColor}`};
+  border-radius: 5px;
+  color: ${p => p.focused ? whiteColor : blackColor};
+  background: ${p => p.focused ? focusColor : whiteColor};
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.25);
+  padding: 0.15rem 0.5rem;
+  }
 `;
 
 const StyledRangeSlider = styled.input.attrs({ type: "range" })`
@@ -183,7 +185,10 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
     cursor: pointer;
     -webkit-appearance: none;
     z-index: 999;
-    background: ${p => !p.focused && `-webkit-radial-gradient(center, ellipse cover,  ${focusColor} 0%,${focusColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
+    background: ${p => !p.focused ?
+    `-webkit-radial-gradient(center, ellipse cover,  ${focusColor} 0%,${focusColor} 35%,${whiteColor} 40%,${whiteColor} 100%)` :
+    `-webkit-radial-gradient(center, ellipse cover,  ${whiteColor} 0%,${whiteColor} 35%,${focusColor} 40%,${focusColor} 100%)`
+  };
   }
   &::-moz-range-thumb {
     position: relative;
@@ -195,21 +200,16 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
     -webkit-appearance: none;
     margin-top: -10px;
     z-index: 999;
-    background: ${p => !p.focused && `-webkit-radial-gradient(center, ellipse cover,  ${focusColor} 0%,${focusColor} 35%,${whiteColor} 40%,${whiteColor} 100%)`};
-  }
-  &:focus::-webkit-slider-thumb {
-    background: ${p => p.focused && `-webkit-radial-gradient(center, ellipse cover,  ${whiteColor} 0%,${whiteColor} 35%,${focusColor} 40%,${focusColor} 100%)`};
-    transition: all 0.15s ease-out;
-  }
-  &:focus::-moz-range-thumb {
-    background: ${p => p.focused && `-webkit-radial-gradient(center, ellipse cover,  ${whiteColor} 0%,${whiteColor} 35%,${focusColor} 40%,${focusColor} 100%)`};
-    transition: all 0.15s ease-out;
+    background: ${p => !p.focused ?
+    `-webkit-radial-gradient(center, ellipse cover,  ${focusColor} 0%,${focusColor} 35%,${whiteColor} 40%,${whiteColor} 100%)` :
+    `-webkit-radial-gradient(center, ellipse cover,  ${whiteColor} 0%,${whiteColor} 35%,${focusColor} 40%,${focusColor} 100%)`
+  };
   }
 `;
 
 const Progress = styled.div`
   position: absolute;
-  /* background: ${p => p.focused ? focusColor : blurColor}; */
+  background: ${p => p.focused ? focusColor : blurColor};
   border: solid 1px ${blackColor};
   border-radius: 15px;
   height: 15px;
