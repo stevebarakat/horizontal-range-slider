@@ -6,11 +6,11 @@ import './global.css';
 ReactDOM.render(
   <React.StrictMode>
     <RangeSlider
-      min={1}
-      max={11}
+      min={0}
+      max={110}
       decimals={0}
-      step={1}
-      width="700px"
+      step={10}
+      width="1500px"
       primaryColor="hsl(196, 100%, 48%)"
       primaryColor50="hsla(196, 100%, 48%, 0.5)"
     />

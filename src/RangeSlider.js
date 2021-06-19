@@ -93,7 +93,7 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
       <RangeOutput
         focused={isFocused}
         // style={{ left: `calc(${newValue}% + (${newPosition / 10}rem))` }}
-        style={{ transform: `translate3d(${newValue * 95}%, 0, 0)` }}
+        style={{ transform: `translate3d(calc(${newValue * 99}% + ${newPosition * 0.05}rem), 0, 0)` }}
       >
         <span>{numberWithCommas(value.toFixed(decimals))}</span>
       </RangeOutput>
@@ -121,8 +121,14 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
         onClick={e => console.log(e)}
         focused={isFocused}
         style={isFocused ?
-          { background: `-webkit-linear-gradient(left, ${focusColor} 0%, ${focusColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} 100%)` } :
-          { background: `-webkit-linear-gradient(left, ${blurColor} 0%, ${blurColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} 100%)` }}
+          {
+            background: `-webkit-linear-gradient(left, ${focusColor} 0%, ${focusColor} calc(${newValue}% + 
+          (${newPosition / 10}rem)), ${whiteColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} 100%)`
+          } :
+          {
+            background: `-webkit-linear-gradient(left, ${blurColor} 0%, ${blurColor} calc(${newValue}% + 
+          (${newPosition / 10}rem)), ${whiteColor} calc(${newValue}% + (${newPosition / 10}rem)), ${whiteColor} 100%)`
+          }}
       />
     </RangeWrap>
   );
@@ -141,22 +147,21 @@ const RangeWrap = styled.div`
 `;
 
 const RangeOutput = styled.div`
-  /* overflow: hidden; */
+  width: 1%;
   position: absolute;
-  margin-top: -2rem;
-  line-height: 1.75rem;
+  display: flex;
+  justify-content: center;
+  margin-top: -1.5rem;
   text-align: center;
   font-size: 1rem;
-  display: flex;
   transition: all 0.15s ease-out;
-  width: 1%;
   span{
-  border: ${p => p.focused ? "none" : `1px solid ${blackColor}`};
-  border-radius: 5px;
-  color: ${p => p.focused ? whiteColor : blackColor};
-  background: ${p => p.focused ? focusColor : whiteColor};
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.25);
-  padding: 0.15rem 0.5rem;
+    border: ${p => p.focused ? "none" : `1px solid ${blackColor}`};
+    border-radius: 5px;
+    color: ${p => p.focused ? whiteColor : blackColor};
+    background: ${p => p.focused ? focusColor : whiteColor};
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.25);
+    padding: 0.25rem 0.5rem;
   }
 `;
 
@@ -239,7 +244,7 @@ const Tick = styled.div`
       transform-origin: top center;
       margin-top: 0.5rem;
       margin-left: ${p => p.length / 2 * -1 + "ch"};
-      margin-left: 0.5rem;
-      transform: rotate(45deg);
+      /* margin-left: 0.5rem;
+      transform: rotate(45deg); */
     }
 `;
