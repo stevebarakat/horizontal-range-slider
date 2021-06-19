@@ -93,7 +93,7 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
       <RangeOutput
         focused={isFocused}
         // style={{ left: `calc(${newValue}% + (${newPosition / 10}rem))` }}
-        style={{ transform: `translate3d(calc(${newValue * 99}% + ${newPosition * 0.05}rem), 0, 0)` }}
+        style={{ transform: `translate3d(calc(${newValue * 99}% + ${newPosition}px), 0, 0)` }}
       >
         <span>{numberWithCommas(value.toFixed(decimals))}</span>
       </RangeOutput>
