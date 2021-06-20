@@ -6,41 +6,53 @@ import './global.css';
 ReactDOM.render(
   <React.StrictMode>
     <RangeSlider
-      min={1}
-      max={11}
+      min={0}
+      max={100}
       decimals={0}
-      step={1}
-      width="1500px"
-      primaryColor="hsl(196, 100%, 48%)"
-      primaryColor50="hsla(196, 100%, 48%, 0.5)"
+      step="10"
+      ticks={true}
+      tickLabel={true}
+      labelRotate={14}
+      primaryColor="hsl(196, 100%, 50%)"
+      primaryColorLight="hsl(196, 100%, 70%)"
+      width="1637"
     />
-    <RangeSlider
-      min={2}
-      max={222}
+    {/* <RangeSlider
+      min={0}
+      max={100}
       decimals={0}
-      step={11}
-      width="500px"
-      primaryColor="hsl(196, 100%, 48%)"
-      primaryColor50="hsla(196, 100%, 48%, 0.5)"
-    />
-    <RangeSlider
-      min={3}
-      max={3333}
-      decimals={2}
-      step={333}
-      width="500px"
-      primaryColor="hsl(196, 100%, 48%)"
-      primaryColor50="hsla(196, 100%, 48%, 0.5)"
+      step="10"
+      ticks={true}
+      tickLabel={true}
+      labelRotate={14}
+      primaryColor="hsl(196, 100%, 50%)"
+      primaryColorLight="hsl(196, 100%, 70%)"
+      width="637"
     />
     <RangeSlider
       min={0}
-      max={1500}
+      max={100}
       decimals={0}
-      step={30}
-      width="500px"
-      primaryColor="hsl(196, 100%, 48%)"
-      primaryColor50="hsla(196, 100%, 48%, 0.5)"
+      step="10"
+      ticks={true}
+      tickLabel={true}
+      labelRotate={14}
+      primaryColor="hsl(196, 100%, 50%)"
+      primaryColorLight="hsl(196, 100%, 70%)"
+      width="637"
     />
+    <RangeSlider
+      min={0}
+      max={100}
+      decimals={0}
+      step="10"
+      ticks={true}
+      tickLabel={true}
+      labelRotate={14}
+      primaryColor="hsl(196, 100%, 50%)"
+      primaryColorLight="hsl(196, 100%, 70%)"
+      width="637"
+    /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

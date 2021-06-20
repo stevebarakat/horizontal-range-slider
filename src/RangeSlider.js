@@ -1,18 +1,39 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from 'styled-components';
 
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+function calcSpace(max, min, height) {
+  const diff = min - max;
+  const ticks = height / 50;
+  return diff / ticks;
+};
+
 let focusColor = "";
 let blurColor = "";
 let newValue = "";
 let selectedValue = "";
 
-const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250px", primaryColor = "black", primaryColor50 }) => {
+const RangeSlider = ({
+  min = 0,
+  max = 100,
+  decimals = 0,
+  step = 0,
+  ticks = false,
+  tickLabel = false,
+  labelRotate = 45,
+  primaryColorLight,
+  primaryColor = "black",
+  width = "400",
+}) => {
   const rangeEl = useRef(null);
   const [value, setValue] = useState((min + max) / 2);
   const [isFocused, setIsFocused] = useState(false);
   const factor = (max - min) / 10;
   focusColor = primaryColor;
-  blurColor = primaryColor50;
+  blurColor = primaryColorLight;
   newValue = Number(((value - min) * 100) / (max - min));
   const newPosition = 10 - newValue * 0.2;
 
@@ -25,21 +46,39 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
     }
   }, [value, max]);
 
-
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-
   let markers = [];
-  for (let i = min; i <= max; i += step) {
-    const labelLength = i.toString().length;
-    markers.push(<Tick length={labelLength} key={i}><span><div>{numberWithCommas(i)}</div></span></Tick>);
+  const space = calcSpace(min, max, width);
+
+  if (step === "space-evenly") {
+    for (let i = min; i <= max; i += space) {
+      const labelLength = i.toString().length;
+      markers.push(
+        <Tick
+          key={i}
+          length={labelLength}
+          tickLabel={tickLabel}
+          labelRotate={parseInt(labelRotate, 10)}
+        >
+          {tickLabel && <div>{numberWithCommas(i)}</div>}
+        </Tick>
+      );
+    }
+  } else {
+    for (let i = min; i <= max; i += parseInt(step, 10)) {
+      const labelLength = i.toString().length;
+      markers.push(
+        <Tick
+          key={i}
+          length={labelLength}
+          tickLabel={tickLabel}
+          labelRotate={parseInt(labelRotate, 10)}
+        >
+          {tickLabel && <div>{numberWithCommas(i)}</div>}
+        </Tick>
+      );
+    }
   }
   const marks = markers.map(marker => marker);
-
-
-
-
 
   function handleKeyPress(e) {
     rangeEl.current.focus();
@@ -57,45 +96,31 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
       case 27: //Esc
         rangeEl.current.blur();
         return;
-
-
-
-
       case 37: //Left
         (cmd || ctrl) && setValue(value - factor);
         return;
-
-
       case 40: //Down
         (cmd || ctrl) && setValue(value - factor);
         return;
-
-
       case 38: //Up
         (cmd || ctrl) && setValue(value >= max ? max : value + factor);
         return;
-
-
       case 39: //Right
         (cmd || ctrl) && setValue(value >= max ? max : value + factor);
         return;
-
-
-
-
       default:
         return;
     }
   }
 
   return (
-    <RangeWrap style={{ width: width }}>
+    <RangeWrap style={{ width: width + "px" }}>
       <RangeOutput
         focused={isFocused}
-        style={{ 
-            transform: `translate3d(${newValue * 99}%, 0, 0)`,
-            left: `${newPosition}px`
-          }}
+        style={{
+          transform: `translate3d(${newValue * 99}%, 0, 0)`,
+          left: `${newPosition}px`
+        }}
       >
         <span>{numberWithCommas(value.toFixed(decimals))}</span>
       </RangeOutput>
@@ -116,9 +141,9 @@ const RangeSlider = ({ min = 0, max = 100, decimals = 0, step = 0, width = "250p
         onBlur={() => setIsFocused(false)}
         focused={isFocused}
       />
-      <Ticks>
+      {ticks && <Ticks>
         {marks}
-      </Ticks>
+      </Ticks>}
       <Progress
         onClick={e => console.log(e)}
         focused={isFocused}
@@ -146,6 +171,7 @@ const RangeWrap = styled.div`
   position: relative;
   margin-top: 2rem;
   max-width: 100%;
+  user-select: none;
 `;
 
 const RangeOutput = styled.div`
@@ -156,7 +182,6 @@ const RangeOutput = styled.div`
   margin-top: -1.5rem;
   text-align: center;
   font-size: 1rem;
-  transition: all 0.15s ease-out;
   span{
     border: ${p => p.focused ? "none" : `1px solid ${blackColor}`};
     border-radius: 5px;
@@ -183,34 +208,34 @@ const StyledRangeSlider = styled.input.attrs({ type: "range" })`
     outline: none;
   }
 
-  &::-webkit-slider-thumb {
-    position: relative;
-    height: 2.15rem;
-    width: 2.15rem;
-    border-radius: 50%;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 1);
-    cursor: pointer;
-    -webkit-appearance: none;
-    z-index: 999;
-    background: ${p => !p.focused ?
-    `-webkit-radial-gradient(center, ellipse cover,  ${focusColor} 0%,${focusColor} 35%,${whiteColor} 40%,${whiteColor} 100%)` :
-    `-webkit-radial-gradient(center, ellipse cover,  ${whiteColor} 0%,${whiteColor} 35%,${focusColor} 40%,${focusColor} 100%)`
-  };
+    &::-webkit-slider-thumb {
+      position: relative;
+      height: 2.15rem;
+      width: 2.15rem;
+      border-radius: 50%;
+      box-shadow: 0 0 4px 0 rgba(0, 0, 0, 1);
+      cursor: pointer;
+      -webkit-appearance: none;
+      z-index: 999;
+      background: ${p => !p.focused ?
+      `-webkit-radial-gradient(center, ellipse cover,  ${focusColor} 0%,${focusColor} 35%,${whiteColor} 40%,${whiteColor} 100%)` :
+      `-webkit-radial-gradient(center, ellipse cover,  ${whiteColor} 0%,${whiteColor} 35%,${focusColor} 40%,${focusColor} 100%)`
+    };
   }
-  &::-moz-range-thumb {
-    position: relative;
-    height: 2.15rem;
-    width: 2.15rem;
-    border-radius: 50%;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 1);
-    cursor: pointer;
-    -webkit-appearance: none;
-    margin-top: -10px;
-    z-index: 999;
-    background: ${p => !p.focused ?
-    `-webkit-radial-gradient(center, ellipse cover,  ${focusColor} 0%,${focusColor} 35%,${whiteColor} 40%,${whiteColor} 100%)` :
-    `-webkit-radial-gradient(center, ellipse cover,  ${whiteColor} 0%,${whiteColor} 35%,${focusColor} 40%,${focusColor} 100%)`
-  };
+    &::-moz-range-thumb {
+      position: relative;
+      height: 2.15rem;
+      width: 2.15rem;
+      border-radius: 50%;
+      box-shadow: 0 0 4px 0 rgba(0, 0, 0, 1);
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -10px;
+      z-index: 999;
+      background: ${p => !p.focused ?
+      `-webkit-radial-gradient(center, ellipse cover,  ${focusColor} 0%,${focusColor} 35%,${whiteColor} 40%,${whiteColor} 100%)` :
+      `-webkit-radial-gradient(center, ellipse cover,  ${whiteColor} 0%,${whiteColor} 35%,${focusColor} 40%,${focusColor} 100%)`
+    };
   }
 `;
 
@@ -234,19 +259,15 @@ const Ticks = styled.div`
 `;
 const Tick = styled.div`
   position: relative;
-  justify-content: center;
-  width: 1px;
+  width: ${p => p.tickLabel ? "1px" : "2px"};
+  height: ${p => p.tickLabel ? "5px" : "8px"};
   background: ${blackColor};
-  height: 5px;
-  /* top: 0.75rem; */
   margin-top: 1rem;
   margin-bottom: ${p => (p.length + 2) + "ch"};
-  
     div{
       transform-origin: top center;
       margin-top: 0.5rem;
-      margin-left: ${p => p.length / 2 * -1 + "ch"};
-      margin-left: 0.5rem;
-      transform: rotate(45deg);
+      margin-left: ${p => p.labelRotate < 15 ? p.length / 2 * -1 + "ch" : "0.5rem"};
+      transform: ${p => `rotate(${p.labelRotate}deg)`};
     }
 `;
