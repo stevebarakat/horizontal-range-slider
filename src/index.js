@@ -15,7 +15,7 @@ ReactDOM.render(
       labelRotate={14}
       primaryColor="hsl(196, 100%, 50%)"
       primaryColorLight="hsl(196, 100%, 70%)"
-      width="1637"
+      width="543"
     />
     {/* <RangeSlider
       min={0}
