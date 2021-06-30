@@ -34,7 +34,10 @@ const RangeSlider = ({
   newValue = Number(((value - min) * 100) / (max - min));
   focusColor = primaryColor;
   blurColor = primaryColorLight;
-
+  const labels = [
+    {50: "five"},
+    {60: "six"}
+  ];
   useEffect(() => {
     rangeEl.current.focus();
     if (value > max) {
@@ -44,16 +47,10 @@ const RangeSlider = ({
     }
   }, [value, max]);
 
-  let labels = [];
   if(step > 0) {
     for (let i = min; i <= max; i += parseInt(step, 10)) {
-      const tickText = prefix + numberWithCommas(i.toFixed(decimals)) + suffix;
+      let tickText = prefix + numberWithCommas(i.toFixed(decimals)) + suffix;
       const labelLength = tickText.toString().length;
-      labels.push({
-        ...i,
-        i: ""
-      })
-      console.log(labels)
       markers.push(
         Tick && <Tick
           key={i}
@@ -61,6 +58,13 @@ const RangeSlider = ({
           tickLabel={tickLabel}
           labelRotate={parseInt(labelRotate, 10)}
         >
+          {labels.map(label => {
+            console.log(parseInt(tickText, 10) === parseInt(Object.keys(label), 10));
+            if(parseInt(tickText, 10) === parseInt(Object.keys(label), 10)){
+              console.log(Object.values(label));
+              tickText = Object.values(label);
+            }
+          })}
           {tickLabel && <div>{tickText}</div>}
         </Tick>
       );
