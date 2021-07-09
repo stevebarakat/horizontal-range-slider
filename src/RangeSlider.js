@@ -46,9 +46,10 @@ const RangeSlider = ({
       setValue(rangeEl.current.valueAsNumber);
     }
   }, [value, max]);
-
+  
   if(step > 0) {
     for (let i = min; i <= max; i += parseInt(step, 10)) {
+      let customTickText = null;
       let tickText = prefix + numberWithCommas(i.toFixed(decimals)) + suffix;
       const labelLength = tickText.toString().length;
       markers.push(
@@ -62,10 +63,10 @@ const RangeSlider = ({
             console.log(parseInt(tickText, 10) === parseInt(Object.keys(label), 10));
             if(parseInt(tickText, 10) === parseInt(Object.keys(label), 10)){
               console.log(Object.values(label));
-              tickText = Object.values(label);
+              customTickText = Object.values(label);
             }
           })}
-          {tickLabel && <div>{tickText}</div>}
+          {tickLabel && <div>{customTickText}</div>}
         </Tick>
       );
     }
